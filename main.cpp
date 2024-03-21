@@ -2,10 +2,10 @@
 // Created by pit_trak on 3/21/24.
 //
 
-#include <cstdio>
+#include "SDL2/SDL.h"
 
 int main()
 {
-    printf("Hello world!\n");
+    SDL_ShowSimpleMessageBox(0, "Artisan Adventurer", "This is the Artisan Adventurer!", nullptr);
     return 0;
 }
