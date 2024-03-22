@@ -6,6 +6,7 @@
 
 int main()
 {
-    SDL_ShowSimpleMessageBox(0, "Artisan Adventurer", "This is the Artisan Adventurer!", nullptr);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Artisan Adventurer", "This is the Artisan Adventurer!",
+                             nullptr);
     return 0;
 }
