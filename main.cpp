@@ -22,6 +22,23 @@ bool HandleEvent(SDL_Event *Event)
                     printf("SDL_WINDOWEVENT_RESIZED (%d, %d)\n", Event->window.data1, Event->window.data2);
                 }
                     break;
+                case SDL_WINDOWEVENT_EXPOSED:
+                {
+                    SDL_Window *Window = SDL_GetWindowFromID(Event->window.windowID);
+                    SDL_Renderer *Renderer = SDL_GetRenderer(Window);
+                    static bool IsWhite = true;
+                    if (IsWhite)
+                    {
+                        SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+                        IsWhite = false;
+                    }
+                    else
+                    {
+                        SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
+                        IsWhite = true;
+                    }
+                }
+                    break;
             }
         }
             break;
@@ -45,15 +62,30 @@ int main()
                               480,
                               SDL_WINDOW_RESIZABLE);
 
-    for(;;)
+    if (Window)
     {
-        SDL_Event Event;
-        SDL_WaitEvent(&Event);
-        if (HandleEvent(&Event))
+        // Create a "Renderer" for our window
+        SDL_Renderer *Renderer = SDL_CreateRenderer(Window, -1, 0);
+
+        if (Renderer)
         {
-            break;
+            for(;;)
+            {
+                SDL_RenderClear(Renderer);
+                SDL_RenderPresent(Renderer);
+
+                SDL_Event Event;
+                SDL_WaitEvent(&Event);
+                if (HandleEvent(&Event))
+                {
+                    break;
+                }
+            }
         }
+
     }
+
+
 
     SDL_Quit();
     return 0;
