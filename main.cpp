@@ -2,7 +2,7 @@
 // Created by pit_trak on 3/21/24.
 //
 
-#include "SDL2/SDL.h"
+#include <SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -11,15 +11,15 @@
 #define global_variable static
 
 global_variable SDL_Texture *Texture;
-global_variable void *Pixels;
-global_variable int TextureWidth;
+global_variable void *BitmapMemory;
+global_variable int BitmapWidth;
 
 internal void
 SDLResizeTexture(SDL_Renderer *Renderer, int Width, int Height)
 {
-    if(Pixels)
+    if(BitmapMemory)
     {
-        free(Pixels);
+        free(BitmapMemory);
     }
     if(Texture)
     {
@@ -30,8 +30,8 @@ SDLResizeTexture(SDL_Renderer *Renderer, int Width, int Height)
                                 SDL_TEXTUREACCESS_STREAMING,
                                 Width,
                                 Height);
-    TextureWidth = Width;
-    Pixels = malloc(Width * Height * 4);
+    BitmapWidth = Width;
+    BitmapMemory = malloc(Width * Height * 4);
 }
 
 internal void
@@ -39,8 +39,8 @@ SDLUpdateWindow(SDL_Window *Window, SDL_Renderer *Renderer)
 {
     SDL_UpdateTexture(Texture,
                       0,
-                      Pixels,
-                      TextureWidth + 4);
+                      BitmapMemory,
+                      BitmapWidth + 4);
 
     SDL_RenderCopy(Renderer,
                    Texture,
